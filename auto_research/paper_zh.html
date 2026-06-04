@@ -221,6 +221,7 @@ footer a { color: var(--accent); }
   <h1>Deli AutoResearch 论文集</h1>
   <div class="subtitle">由自主研究智能体生成的三篇综述论文</div>
   <div class="updated">最后更新: 2026-06-04 &nbsp;|&nbsp; 全部论文同行审议 8.5/10</div>
+  <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-dim); font-style:italic;">纯个人兴趣项目，独立研究者作品，不代表任何组织的立场，所有观点仅代表我个人。</p>
 </div>
 
 <div class="global-stats">
@@ -433,21 +434,28 @@ footer a { color: var(--accent); }
       <tr><th>技能</th><th>ID</th><th>调用次数</th><th>阶段</th><th>用途</th></tr>
     </thead>
     <tbody>
-      <tr><td class="highlight">search_agent</td><td>#5</td><td>12+</td><td>Literature &amp; Verify</td><td>arXiv search, citation verification, DBLP cross-check, acceptance status lookup</td></tr>
-      <tr><td class="highlight">call_api</td><td>#2</td><td>8+</td><td>Review &amp; Experiment</td><td>Multi-model peer review (3&ndash;5 reviewers &times; 5 rounds), horizon scaling experiment (3300 API calls)</td></tr>
-      <tr><td class="highlight">static_file_service</td><td>#6</td><td>4</td><td>Deploy</td><td>PDF hosting, index.html generation, service restart</td></tr>
-      <tr><td class="highlight">skill-router</td><td>#57</td><td>3</td><td>Orchestration</td><td>Dynamic skill matching for sub-tasks (literature, experiment, deployment)</td></tr>
-      <tr><td>Deli_AutoResearch</td><td>&mdash;</td><td>3</td><td>Orchestration</td><td>Master framework: anti-loop, heartbeat, state management, multi-track coordination</td></tr>
-      <tr><td>paper_writing <span style="font-size:0.65rem; padding:0.1rem 0.4rem; background:#dbeafe; color:#1e40af; border-radius:3px; font-weight:700;">已开源</span></td><td>&mdash;</td><td>3</td><td>Writing</td><td>LaTeX generation, section structure, figure/table standards, compilation</td></tr>
-      <tr><td>peer_review_simulation</td><td>&mdash;</td><td>14</td><td>Review</td><td>Multi-persona scoring (5 reviewer types), iterative fix cycles (V1&rarr;V5)</td></tr>
-      <tr><td>experiment_design</td><td>&mdash;</td><td>2</td><td>Experiment</td><td>Horizon scaling study design, CL&times;SI interaction experiment design</td></tr>
+      <!-- 已开源技能组 (paper_writing) -->
+      <tr style="background:#f0fdf4"><td class="highlight">paper_writing <span style="font-size:0.65rem; padding:0.1rem 0.4rem; background:#d1fae5; color:#065f46; border-radius:3px; font-weight:700;">已开源</span></td><td>&mdash;</td><td>3</td><td>写作</td><td>父技能组：LaTeX 生成、章节结构、图表规范、编译</td></tr>
+      <tr style="background:#f0fdf4"><td class="highlight" style="padding-left:2.5rem;">&mdash; literature_survey <span style="font-size:0.65rem; padding:0.1rem 0.4rem; background:#d1fae5; color:#065f46; border-radius:3px; font-weight:700;">已开源</span></td><td>&mdash;</td><td>12+</td><td>文献调研</td><td>关键词生成、LQS 评分、引用深度分类、期刊升级</td></tr>
+      <tr style="background:#f0fdf4"><td class="highlight" style="padding-left:2.5rem;">&mdash; paper_structure <span style="font-size:0.65rem; padding:0.1rem 0.4rem; background:#d1fae5; color:#065f46; border-radius:3px; font-weight:700;">已开源</span></td><td>&mdash;</td><td>6+</td><td>写作</td><td>章节大纲、段落衔接、交叉引用一致性、分类体系设计</td></tr>
+      <tr style="background:#f0fdf4"><td class="highlight" style="padding-left:2.5rem;">&mdash; experiment_design <span style="font-size:0.65rem; padding:0.1rem 0.4rem; background:#d1fae5; color:#065f46; border-radius:3px; font-weight:700;">已开源</span></td><td>&mdash;</td><td>2</td><td>实验</td><td>Horizon scaling 实验设计、CL&times;SI 交互实验设计</td></tr>
+      <tr style="background:#f0fdf4"><td class="highlight" style="padding-left:2.5rem;">&mdash; figures_tables <span style="font-size:0.65rem; padding:0.1rem 0.4rem; background:#d1fae5; color:#065f46; border-radius:3px; font-weight:700;">已开源</span></td><td>&mdash;</td><td>8+</td><td>写作</td><td>图片排版、表格格式、标题生成、可视化规范</td></tr>
+      <tr style="background:#f0fdf4"><td class="highlight" style="padding-left:2.5rem;">&mdash; peer_review_simulation <span style="font-size:0.65rem; padding:0.1rem 0.4rem; background:#d1fae5; color:#065f46; border-radius:3px; font-weight:700;">已开源</span></td><td>&mdash;</td><td>14</td><td>审议</td><td>多角色评分（5 种审稿人）、迭代修复（V1&rarr;V5）</td></tr>
+      <!-- 内部技能 -->
+      <tr style="background:#f9fafb"><td colspan="5" style="font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-dim); padding-top:0.8rem;">内部技能（无法公开）</td></tr>
+      <tr><td style="color:var(--text-dim);">search_agent</td><td style="color:var(--text-dim);">#5</td><td style="color:var(--text-dim);">12+</td><td style="color:var(--text-dim);">文献 &amp; 验证</td><td style="color:var(--text-dim);">arXiv 搜索、引用验证、DBLP 交叉检查、接收状态查询</td></tr>
+      <tr><td style="color:var(--text-dim);">call_api</td><td style="color:var(--text-dim);">#2</td><td style="color:var(--text-dim);">8+</td><td style="color:var(--text-dim);">审议 &amp; 实验</td><td style="color:var(--text-dim);">多模型同行审议（3&ndash;5 审稿人 &times; 5 轮）、horizon scaling 实验（3300 次 API 调用）</td></tr>
+      <tr><td style="color:var(--text-dim);">static_file_service</td><td style="color:var(--text-dim);">#6</td><td style="color:var(--text-dim);">4</td><td style="color:var(--text-dim);">部署</td><td style="color:var(--text-dim);">PDF 托管、index.html 生成、服务重启</td></tr>
+      <tr><td style="color:var(--text-dim);">skill-router</td><td style="color:var(--text-dim);">#57</td><td style="color:var(--text-dim);">3</td><td style="color:var(--text-dim);">编排</td><td style="color:var(--text-dim);">动态技能匹配（文献、实验、部署子任务）</td></tr>
+      <tr><td style="color:var(--text-dim);">Deli_AutoResearch<sup style="font-size:0.6rem;">*</sup></td><td style="color:var(--text-dim);">&mdash;</td><td style="color:var(--text-dim);">3</td><td style="color:var(--text-dim);">编排</td><td style="color:var(--text-dim);">主框架：防循环、心跳、状态管理、多轨协调</td></tr>
       <tr><td style="border-bottom:none">&nbsp;</td><td style="border-bottom:none"></td><td style="border-bottom:none"></td><td style="border-bottom:none"></td><td style="border-bottom:none"></td></tr>
-      <tr style="background:#f8fdf8"><td class="highlight">Total skill invocations</td><td>&mdash;</td><td class="highlight">49+</td><td>&mdash;</td><td>Across 3 papers &times; 5+ review rounds &times; multi-stage pipeline</td></tr>
+      <tr style="background:#f8fdf8"><td class="highlight">技能总调用次数</td><td>&mdash;</td><td class="highlight">68+</td><td>&mdash;</td><td>横跨 3 篇论文 &times; 5+ 审议轮次 &times; 多阶段流水线</td></tr>
     </tbody>
   </table>
 
   <p style="font-size:0.8rem; color:var(--text-dim); margin-top:0.8rem;">
-    注：标有 ID 编号的技能（#2、#5、#6、#57）依赖内部基础设施，无法公开。仅 <code>paper_writing</code> 技能已开源。
+    <code>paper_writing</code> 为已开源技能组，包含 5 个子技能。标有 ID 编号的技能（#2、#5、#6、#57）依赖内部基础设施，无法公开。<br>
+    <sup>*</sup> Deli_AutoResearch 仍在持续迭代中，暂无稳定的公开发布版本。
   </p>
 </section>
 
