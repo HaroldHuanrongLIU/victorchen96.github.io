@@ -138,7 +138,9 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 <!-- English Version -->
 <div class="blog-content lang-en active">
 
-<p>Today I'm releasing a major update to the <strong>Deli AutoResearch</strong> project — three survey papers produced entirely by autonomous LLM agents, from literature search to final PDF generation. No human wrote a single paragraph.</p>
+<p>Happy to share the <strong>Deli AutoResearch V2</strong> update — three survey papers produced with LLM agent assistance, covering the full pipeline from literature search to PDF generation. It's still very much an exploratory experiment with plenty of room for improvement, but hopefully offers some reference points for AI-assisted academic writing.</p>
+
+<p style="font-size:0.82rem; color:#8b949e; padding:0.6rem 1rem; border-left:3px solid #e1e4e8; margin:1rem 0;"><em>Disclaimer: This is a personal hobby project. All opinions expressed are my own and do not represent any organization.</em></p>
 
 <div class="stat-banner">
   <div class="sb-item"><div class="sb-num">3</div><div class="sb-label">Papers</div></div>
@@ -155,7 +157,7 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 <ol>
   <li><strong>New Paper #3: Long-Horizon Sequential Decision-Making.</strong> A comprehensive 57-page survey covering 384 papers on hierarchical planning, reactive agents, MCTS/PRM search methods, and RL for agents. Features a rigorous horizon scaling experiment across 5 frontier models &times; 5 horizon lengths, revealing exponential performance decay (R&sup2; &gt; 0.93) that CoT and hierarchical planning can significantly mitigate.</li>
   <li><strong>Papers #1 & #2 republished with extensive new literature.</strong> Both papers received a major citation upgrade: 141 new references added, 73 papers deeply woven into the narrative, and 36 venue upgrades (arXiv &rarr; accepted conference/journal via DBLP verification). This round of work consumed ~850K tokens across 10+ subagents in ~200 minutes.</li>
-  <li><strong>Paper-writing skills fully open-sourced.</strong> The complete skill group powering the AutoResearch pipeline — including literature recall, LQS scoring, citation classification, experiment design, peer review simulation, and LaTeX generation — is now documented and available for reuse.</li>
+  <li><strong>Paper-writing skill open-sourced.</strong> The <code>paper_writing</code> skill — covering LaTeX generation, section structure, and figure/table standards — is now open source and available for reuse. Other skills in the pipeline (search_agent, call_api, peer_review_simulation, etc.) remain internal.</li>
 </ol>
 
 <h2>The Pipeline at a Glance</h2>
@@ -198,9 +200,27 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 
 <p>The highlight is a <strong>horizon scaling experiment</strong>: 5 frontier models tested across 5 horizon lengths (10, 50, 100, 200, 500 steps) &times; 3 conditions (vanilla, CoT, hierarchical) &times; 3 task types. Key finding: performance degrades exponentially with horizon length, but Chain-of-Thought and hierarchical decomposition reduce the decay constant by 40-60%.</p>
 
-<h2>Literature Upgrade: What Changed</h2>
+<h2>Iteration History</h2>
 
-<p>The V5 release isn't just a re-upload. The autonomous literature agent:</p>
+<p>Each paper went through multiple autonomous iterations, driven by agent-simulated peer review that surfaces weaknesses and triggers targeted fixes:</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>Version</th><th>Paper #1 (Auto-Research)</th><th>Paper #2 (Continual Learning)</th><th>Paper #3 (Long-Horizon)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>V1</strong></td><td>Draft + 80 refs (6.0)</td><td>Draft + basic taxonomy (6.0)</td><td>Draft + 134 refs (7.0)</td></tr>
+    <tr><td><strong>V2</strong></td><td>Literature + logic chains (6.5)</td><td>Dual-axis taxonomy redesign (6.5)</td><td>Adversarial review exposed missing experiments (3.0*)</td></tr>
+    <tr><td><strong>V3</strong></td><td>Pilot experiment + figures (7.5)</td><td>CL&times;SI interaction study (7.0)</td><td>Horizon scaling experiment (8.0)</td></tr>
+    <tr><td><strong>V4</strong></td><td>Deep analysis + formal conjectures (8.0)</td><td>Self-verification Pareto study (8.0)</td><td>Cross-validation + meta-analysis (8.5 &check;)</td></tr>
+    <tr><td><strong>V5</strong></td><td>Literature refresh + polish (8.5 &check;)</td><td>Literature refresh + polish (8.5 &check;)</td><td>&mdash;</td></tr>
+  </tbody>
+</table>
+<p style="font-size:0.85em; color:#888; margin-top:0.5em;">* Paper #3 V2 was scored by an adversarial reviewer with strict experimental standards; V3 addressed all concerns with a redesigned horizon scaling experiment.</p>
+
+<h2>Literature Upgrade: What V5 Did</h2>
+
+<p>The final round isn't just a re-upload. The autonomous literature agent:</p>
 <ul>
   <li>Re-ran 50+ search queries against updated arXiv indices</li>
   <li>Added <strong>141 new references</strong> across the three papers</li>
@@ -209,14 +229,18 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
   <li>Maintained freshness: 35-60% of all citations are from the past year</li>
 </ul>
 
-<h2>Open-Sourcing the Skills</h2>
+<h2>Open Source Skill</h2>
 
-<p>The entire paper-writing skill group is now documented:</p>
+<p>The <code>paper_writing</code> skill is now open source:</p>
+<ul>
+  <li><strong>paper_writing</strong> <span style="font-size:0.75em; padding:0.1em 0.4em; background:#dbeafe; color:#1e40af; border-radius:3px; font-weight:700;">OPEN SOURCE</span> — LaTeX generation, section structure, figure/table standards</li>
+</ul>
+
+<p>Other skills used in the pipeline remain internal:</p>
 <ul>
   <li><strong>search_agent</strong> — arXiv search, citation verification, DBLP cross-check</li>
   <li><strong>call_api</strong> — Multi-model peer review (3-5 reviewers &times; 5 rounds)</li>
   <li><strong>skill-router</strong> — Dynamic skill matching for sub-tasks</li>
-  <li><strong>paper_writing</strong> — LaTeX generation, section structure, figure/table standards</li>
   <li><strong>peer_review_simulation</strong> — Multi-persona scoring with iterative fix cycles</li>
   <li><strong>experiment_design</strong> — Study design and execution planning</li>
 </ul>
@@ -239,7 +263,9 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 <!-- Chinese Version -->
 <div class="blog-content lang-zh">
 
-<p>今天正式发布 <strong>Deli AutoResearch</strong> 项目的重大更新——三篇由自主 LLM Agent 全流程生产的综述论文，从文献检索到最终 PDF 生成，无人类撰写任何段落。</p>
+<p>今天很高兴发布 <strong>Deli AutoResearch V2</strong> 版本的正式更新——三篇由 LLM Agent 辅助完成的综述论文，覆盖从文献检索到 PDF 生成的完整流程。作为一次探索性实验，仍有诸多不足，但希望能为 AI 辅助学术写作提供一些参考。</p>
+
+<p style="font-size:0.82rem; color:#8b949e; padding:0.6rem 1rem; border-left:3px solid #e1e4e8; margin:1rem 0;"><em>声明：纯个人兴趣项目，不代表任何组织的立场，所有观点仅代表我个人。</em></p>
 
 <div class="stat-banner">
   <div class="sb-item"><div class="sb-num">3</div><div class="sb-label">论文</div></div>
@@ -254,7 +280,7 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 <ol>
   <li><strong>新增第三篇论文：长时序决策（Long-Horizon Sequential Decision-Making）</strong><br>一篇57页的全面综述，覆盖384篇论文，包括层次化规划、反应式架构、基于搜索的方法（MCTS/PRM）和 Agent RL。亮点是一项严格的"地平线缩放实验"：5个前沿模型 &times; 5种步长 &times; 3种条件 &times; 3类任务，发现性能随步长呈指数衰减（R&sup2; &gt; 0.93），而 CoT 和层次分解可将衰减常数降低 40-60%。</li>
   <li><strong>前两篇论文全面改版，大幅扩充文献</strong><br>两篇论文均完成重大引文升级：新增141篇参考文献、73篇深度织入叙述、36个期刊/会议升级（从 arXiv 预印本升级为正式发表版本，通过 DBLP 交叉验证）。本轮工作消耗约 85 万 tokens，10+ 个子 Agent，耗时约 200 分钟。</li>
-  <li><strong>论文写作技能组全部开源</strong><br>驱动 AutoResearch 流水线的完整技能组——包括文献召回、LQS 评分、引用分类、实验设计、同行评审模拟和 LaTeX 生成——现已文档化并可供复用。</li>
+  <li><strong>论文写作技能已开源</strong><br><code>paper_writing</code> 技能——覆盖 LaTeX 生成、章节结构、图表规范——现已开源并可供复用。流水线中的其他技能（search_agent、call_api、peer_review_simulation 等）为内部使用。</li>
 </ol>
 
 <h2>流水线一览</h2>
@@ -297,9 +323,27 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 
 <p>核心实验发现：性能随步长呈指数衰减，但 Chain-of-Thought 和层次分解可将衰减常数降低 40-60%。这为设计长时序 Agent 提供了明确的工程指导。</p>
 
-<h2>文献升级：变了什么</h2>
+<h2>迭代历程</h2>
 
-<p>V5 版本不是简单的重新上传。自主文献 Agent 完成了以下工作：</p>
+<p>每篇论文都经历了多轮自主迭代，由 Agent 驱动的同行审议不断暴露弱点、触发修复：</p>
+
+<table>
+  <thead>
+    <tr><th>版本</th><th>论文 #1 (自主研究)</th><th>论文 #2 (持续学习)</th><th>论文 #3 (长时序)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>V1</strong></td><td>初稿 + 80 引用 (6.0)</td><td>初稿 + 基础分类法 (6.0)</td><td>初稿 + 134 篇文献 (7.0)</td></tr>
+    <tr><td><strong>V2</strong></td><td>文献补充 + 逻辑链 (6.5)</td><td>双轴分类法重构 (6.5)</td><td>对抗审稿暴露实验缺失 (3.0*)</td></tr>
+    <tr><td><strong>V3</strong></td><td>Pilot 实验 + 图表 (7.5)</td><td>CL&times;SI 交互实验 (7.0)</td><td>Horizon Scaling 实验 (8.0)</td></tr>
+    <tr><td><strong>V4</strong></td><td>深度分析 + 形式猜想 (8.0)</td><td>自验证 Pareto 实验 (8.0)</td><td>交叉验证 + meta分析 (8.5 &check;)</td></tr>
+    <tr><td><strong>V5</strong></td><td>文献更新 + 精修 (8.5 &check;)</td><td>文献更新 + 精修 (8.5 &check;)</td><td>&mdash;</td></tr>
+  </tbody>
+</table>
+<p style="font-size:0.85em; color:#888; margin-top:0.5em;">* Paper #3 V2 由对抗性审稿人评分，严格要求实验验证；V3 据此重新设计了 horizon scaling 实验。</p>
+
+<h2>文献升级：V5 做了什么</h2>
+
+<p>最终一轮不是简单的重新上传。自主文献 Agent 完成了以下工作：</p>
 <ul>
   <li>对更新后的 arXiv 索引重新执行 50+ 检索查询</li>
   <li>三篇论文新增 <strong>141 篇参考文献</strong></li>
@@ -308,14 +352,18 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
   <li>保持新鲜度：35-60% 引用来自过去一年</li>
 </ul>
 
-<h2>开源技能组</h2>
+<h2>开源技能</h2>
 
-<p>完整的论文写作技能组现已文档化：</p>
+<p>论文写作技能已开源：</p>
+<ul>
+  <li><strong>paper_writing</strong> <span style="font-size:0.75em; padding:0.1em 0.4em; background:#dbeafe; color:#1e40af; border-radius:3px; font-weight:700;">OPEN SOURCE</span> — LaTeX 生成、章节结构、图表规范</li>
+</ul>
+
+<p>其他技能为内部使用：</p>
 <ul>
   <li><strong>search_agent</strong> — arXiv 检索、引用验证、DBLP 交叉核实</li>
   <li><strong>call_api</strong> — 多模型同行评审（3-5 评审人 &times; 5 轮）</li>
   <li><strong>skill-router</strong> — 子任务动态技能匹配</li>
-  <li><strong>paper_writing</strong> — LaTeX 生成、章节结构、图表规范</li>
   <li><strong>peer_review_simulation</strong> — 多角色评分 + 迭代修复</li>
   <li><strong>experiment_design</strong> — 实验设计与执行规划</li>
 </ul>
