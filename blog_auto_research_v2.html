@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoResearch V2: Three Papers, 941 Citations, Zero Human Writing - Deli Chen</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c0f; --surface: #16161a; --surface-2: #1e1e24;
+  --text: #e8e8ed; --text-dim: #94949e; --accent: #4fc3f7;
+  --accent-warm: #ff8a65; --accent-green: #66bb6a; --accent-gold: #ffd54f;
+  --border: #2a2a32; --glow: rgba(79, 195, 247, 0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; min-height: 100vh; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+a:hover { opacity: 0.8; }
+
+.container { max-width: 720px; margin: 0 auto; padding: 60px 32px 80px; }
+
+.blog-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.blog-back { font-size: 0.85em; color: var(--text-dim); margin-bottom: 24px; display: inline-block; }
+.blog-back:hover { color: var(--accent); }
+.blog-title { font-size: 2.2em; font-weight: 700; line-height: 1.3; margin-bottom: 12px; letter-spacing: -0.02em; }
+.blog-subtitle { font-size: 1.1em; color: var(--text-dim); margin-bottom: 16px; }
+.blog-meta { font-size: 0.85em; color: var(--text-dim); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+.lang-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-left: auto; }
+.lang-btn {
+  padding: 5px 14px; font-size: 0.82em; cursor: pointer; transition: all 0.2s;
+  background: transparent; color: var(--text-dim); border: none; font-family: inherit;
+}
+.lang-btn.active { background: var(--accent); color: #000; font-weight: 600; }
+.lang-btn:hover:not(.active) { color: var(--text); }
+
+.blog-content { font-size: 1.02em; }
+.blog-content h2 {
+  font-size: 1.3em; font-weight: 700; margin: 48px 0 16px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  color: var(--accent);
+}
+.blog-content p { margin-bottom: 16px; }
+.blog-content ul, .blog-content ol { margin-bottom: 16px; padding-left: 24px; }
+.blog-content li { margin-bottom: 8px; }
+.blog-content strong { color: var(--text); }
+.blog-content code {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.88em;
+  background: var(--surface-2); padding: 2px 6px; border-radius: 4px;
+}
+
+.stat-banner {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;
+  padding: 20px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; margin: 24px 0;
+}
+.stat-banner .sb-item { text-align: center; }
+.stat-banner .sb-num { font-size: 1.8em; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+.stat-banner .sb-label { font-size: 0.72em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.pipeline-chart {
+  display: flex; align-items: center; gap: 0; margin: 24px 0; overflow-x: auto; padding: 8px 0;
+}
+.pipeline-step {
+  display: flex; flex-direction: column; align-items: center; min-width: 100px; text-align: center;
+}
+.pipeline-step .ps-icon { font-size: 1.8em; margin-bottom: 4px; }
+.pipeline-step .ps-name { font-size: 0.78em; font-weight: 600; color: var(--text); }
+.pipeline-step .ps-detail { font-size: 0.68em; color: var(--text-dim); }
+.pipeline-arrow { font-size: 1.2em; color: var(--accent); margin: 0 4px; flex-shrink: 0; }
+
+.comparison-table {
+  width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 0.85em;
+}
+.comparison-table th {
+  background: var(--surface-2); padding: 10px 12px; text-align: left;
+  border-bottom: 2px solid var(--accent); font-weight: 600; font-size: 0.82em;
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+.comparison-table td {
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+}
+.comparison-table tr:hover td { background: var(--surface); }
+.highlight-cell { color: var(--accent-green); font-weight: 600; }
+
+.cta-box {
+  margin: 32px 0; padding: 20px 24px; background: linear-gradient(135deg, rgba(79,195,247,0.05), var(--surface));
+  border: 1px solid var(--accent); border-radius: 10px; text-align: center;
+}
+.cta-box a {
+  display: inline-block; margin-top: 12px; padding: 10px 24px;
+  background: var(--accent); color: #000; border-radius: 6px;
+  font-weight: 600; font-size: 0.92em;
+}
+
+.lang-en, .lang-zh { display: none; }
+.lang-en.active, .lang-zh.active { display: block; }
+
+footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-dim); font-size: 0.82em; }
+
+@media (max-width: 600px) {
+  .blog-title { font-size: 1.6em; }
+  .stat-banner { grid-template-columns: repeat(2, 1fr); }
+  .pipeline-chart { flex-wrap: wrap; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="blog-header">
+  <a href="index.html" class="blog-back">&larr; Back to Homepage</a>
+  <div style="display:flex; justify-content:space-between; align-items:start; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h1 class="blog-title lang-en active">AutoResearch V2: Three Papers, 941 Citations, Zero Human Writing</h1>
+      <h1 class="blog-title lang-zh">AutoResearch V2：三篇论文，941 篇引用，零人类写作</h1>
+      <p class="blog-subtitle lang-en active">What happens when you let LLM agents run an entire research pipeline end-to-end</p>
+      <p class="blog-subtitle lang-zh">当你让 LLM Agent 端到端运行整个科研流水线会发生什么</p>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" onclick="switchLang('zh')">ZH</button>
+    </div>
+  </div>
+  <div class="blog-meta">
+    <span>Deli Chen</span>
+    <span>June 4, 2026</span>
+    <span>5 min read</span>
+  </div>
+</div>
+
+<!-- English Version -->
+<div class="blog-content lang-en active">
+
+<p>Today I'm releasing a major update to the <strong>Deli AutoResearch</strong> project — three survey papers produced entirely by autonomous LLM agents, from literature search to final PDF generation. No human wrote a single paragraph.</p>
+
+<div class="stat-banner">
+  <div class="sb-item"><div class="sb-num">3</div><div class="sb-label">Papers</div></div>
+  <div class="sb-item"><div class="sb-num">941</div><div class="sb-label">Citations</div></div>
+  <div class="sb-item"><div class="sb-num">190</div><div class="sb-label">Pages</div></div>
+  <div class="sb-item"><div class="sb-num">8.5</div><div class="sb-label">Avg Review</div></div>
+  <div class="sb-item"><div class="sb-num">~38h</div><div class="sb-label">Wall Clock</div></div>
+</div>
+
+<h2>What's New in This Release</h2>
+
+<p>This update brings three major changes:</p>
+
+<ol>
+  <li><strong>New Paper #3: Long-Horizon Sequential Decision-Making.</strong> A comprehensive 57-page survey covering 384 papers on hierarchical planning, reactive agents, MCTS/PRM search methods, and RL for agents. Features a rigorous horizon scaling experiment across 5 frontier models &times; 5 horizon lengths, revealing exponential performance decay (R&sup2; &gt; 0.93) that CoT and hierarchical planning can significantly mitigate.</li>
+  <li><strong>Papers #1 & #2 republished with extensive new literature.</strong> Both papers received a major citation upgrade: 141 new references added, 73 papers deeply woven into the narrative, and 36 venue upgrades (arXiv &rarr; accepted conference/journal via DBLP verification). This round of work consumed ~850K tokens across 10+ subagents in ~200 minutes.</li>
+  <li><strong>Paper-writing skills fully open-sourced.</strong> The complete skill group powering the AutoResearch pipeline — including literature recall, LQS scoring, citation classification, experiment design, peer review simulation, and LaTeX generation — is now documented and available for reuse.</li>
+</ol>
+
+<h2>The Pipeline at a Glance</h2>
+
+<div class="pipeline-chart">
+  <div class="pipeline-step"><div class="ps-icon">&#x1F50D;</div><div class="ps-name">Recall</div><div class="ps-detail">50+ queries<br>387 results</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x2B50;</div><div class="ps-name">Score (LQS)</div><div class="ps-detail">228 scored<br>131 must-cite</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x1F3AF;</div><div class="ps-name">Classify</div><div class="ps-detail">A/B/C/D depth<br>16 deep-discuss</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x2B06;&#xFE0F;</div><div class="ps-name">Upgrade</div><div class="ps-detail">36 venue<br>upgrades</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x270D;&#xFE0F;</div><div class="ps-name">Write</div><div class="ps-detail">~1.95M tokens<br>190 pages</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x1F9EA;</div><div class="ps-name">Experiment</div><div class="ps-detail">3300 API calls<br>pilot studies</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x1F4DD;</div><div class="ps-name">Review</div><div class="ps-detail">14 rounds<br>6.0&rarr;8.5</div></div>
+</div>
+
+<h2>Paper-by-Paper Comparison</h2>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>Metric</th><th>Paper #1<br><span style="font-weight:400;text-transform:none">Auto-Research Agents</span></th><th>Paper #2<br><span style="font-weight:400;text-transform:none">Continual Learning</span></th><th>Paper #3<br><span style="font-weight:400;text-transform:none">Long-Horizon</span></th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Citations</td><td>228</td><td>329</td><td class="highlight-cell">384</td></tr>
+    <tr><td>Pages</td><td>63</td><td class="highlight-cell">70</td><td>57</td></tr>
+    <tr><td>New refs (Jun)</td><td>34</td><td>41</td><td class="highlight-cell">66</td></tr>
+    <tr><td>Venue upgrades</td><td>16</td><td>14</td><td>6</td></tr>
+    <tr><td>Review score</td><td>8.5/10</td><td>8.5/10</td><td>8.5/10</td></tr>
+    <tr><td>Version</td><td>V5</td><td>V5</td><td>V4</td></tr>
+  </tbody>
+</table>
+
+<h2>The New Paper: Long-Horizon Decision-Making</h2>
+
+<p>Paper #3 tackles one of the hardest open problems in AI agents: <strong>how to maintain coherence over long action sequences</strong>. The survey covers hierarchical planning (HRL, options framework), reactive architectures, search-based methods (MCTS, PRM), and RL for agent training.</p>
+
+<p>The highlight is a <strong>horizon scaling experiment</strong>: 5 frontier models tested across 5 horizon lengths (10, 50, 100, 200, 500 steps) &times; 3 conditions (vanilla, CoT, hierarchical) &times; 3 task types. Key finding: performance degrades exponentially with horizon length, but Chain-of-Thought and hierarchical decomposition reduce the decay constant by 40-60%.</p>
+
+<h2>Literature Upgrade: What Changed</h2>
+
+<p>The V5 release isn't just a re-upload. The autonomous literature agent:</p>
+<ul>
+  <li>Re-ran 50+ search queries against updated arXiv indices</li>
+  <li>Added <strong>141 new references</strong> across the three papers</li>
+  <li>Deeply <strong>wove 73 papers</strong> into existing narrative (not just citation dumps)</li>
+  <li>Upgraded <strong>36 entries</strong> from arXiv preprints to their accepted venue via DBLP cross-referencing</li>
+  <li>Maintained freshness: 35-60% of all citations are from the past year</li>
+</ul>
+
+<h2>Open-Sourcing the Skills</h2>
+
+<p>The entire paper-writing skill group is now documented:</p>
+<ul>
+  <li><strong>search_agent</strong> — arXiv search, citation verification, DBLP cross-check</li>
+  <li><strong>call_api</strong> — Multi-model peer review (3-5 reviewers &times; 5 rounds)</li>
+  <li><strong>skill-router</strong> — Dynamic skill matching for sub-tasks</li>
+  <li><strong>paper_writing</strong> — LaTeX generation, section structure, figure/table standards</li>
+  <li><strong>peer_review_simulation</strong> — Multi-persona scoring with iterative fix cycles</li>
+  <li><strong>experiment_design</strong> — Study design and execution planning</li>
+</ul>
+
+<p>Total: <strong>49+ skill invocations</strong> across 7 distinct skills, coordinated by the Deli_AutoResearch master framework.</p>
+
+<div class="cta-box">
+  <p><strong>Read the papers, download the PDFs, and explore the production statistics.</strong></p>
+  <a href="auto_research/paper.html">View AutoResearch Papers &rarr;</a>
+</div>
+
+<h2>What's Next</h2>
+
+<p>The pipeline is approaching a level where the primary bottleneck is no longer writing quality — it's <em>research taste</em>: which questions to ask, which angles to pursue, and when to stop. The next iteration will focus on hypothesis generation and novelty detection, moving from survey synthesis toward original contributions.</p>
+
+<p>Stay tuned.</p>
+
+</div>
+
+<!-- Chinese Version -->
+<div class="blog-content lang-zh">
+
+<p>今天正式发布 <strong>Deli AutoResearch</strong> 项目的重大更新——三篇由自主 LLM Agent 全流程生产的综述论文，从文献检索到最终 PDF 生成，无人类撰写任何段落。</p>
+
+<div class="stat-banner">
+  <div class="sb-item"><div class="sb-num">3</div><div class="sb-label">论文</div></div>
+  <div class="sb-item"><div class="sb-num">941</div><div class="sb-label">引用文献</div></div>
+  <div class="sb-item"><div class="sb-num">190</div><div class="sb-label">页数</div></div>
+  <div class="sb-item"><div class="sb-num">8.5</div><div class="sb-label">平均评分</div></div>
+  <div class="sb-item"><div class="sb-num">~38h</div><div class="sb-label">总耗时</div></div>
+</div>
+
+<h2>本次更新的三大核心</h2>
+
+<ol>
+  <li><strong>新增第三篇论文：长时序决策（Long-Horizon Sequential Decision-Making）</strong><br>一篇57页的全面综述，覆盖384篇论文，包括层次化规划、反应式架构、基于搜索的方法（MCTS/PRM）和 Agent RL。亮点是一项严格的"地平线缩放实验"：5个前沿模型 &times; 5种步长 &times; 3种条件 &times; 3类任务，发现性能随步长呈指数衰减（R&sup2; &gt; 0.93），而 CoT 和层次分解可将衰减常数降低 40-60%。</li>
+  <li><strong>前两篇论文全面改版，大幅扩充文献</strong><br>两篇论文均完成重大引文升级：新增141篇参考文献、73篇深度织入叙述、36个期刊/会议升级（从 arXiv 预印本升级为正式发表版本，通过 DBLP 交叉验证）。本轮工作消耗约 85 万 tokens，10+ 个子 Agent，耗时约 200 分钟。</li>
+  <li><strong>论文写作技能组全部开源</strong><br>驱动 AutoResearch 流水线的完整技能组——包括文献召回、LQS 评分、引用分类、实验设计、同行评审模拟和 LaTeX 生成——现已文档化并可供复用。</li>
+</ol>
+
+<h2>流水线一览</h2>
+
+<div class="pipeline-chart">
+  <div class="pipeline-step"><div class="ps-icon">&#x1F50D;</div><div class="ps-name">召回</div><div class="ps-detail">50+ 查询<br>387 结果</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x2B50;</div><div class="ps-name">评分 (LQS)</div><div class="ps-detail">228 篇评分<br>131 必引</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x1F3AF;</div><div class="ps-name">分类</div><div class="ps-detail">A/B/C/D 深度<br>16 篇深入讨论</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x2B06;&#xFE0F;</div><div class="ps-name">升级</div><div class="ps-detail">36 个期刊<br>升级</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x270D;&#xFE0F;</div><div class="ps-name">写作</div><div class="ps-detail">~195万 tokens<br>190 页</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x1F9EA;</div><div class="ps-name">实验</div><div class="ps-detail">3300 API 调用<br>先导研究</div></div>
+  <span class="pipeline-arrow">&rarr;</span>
+  <div class="pipeline-step"><div class="ps-icon">&#x1F4DD;</div><div class="ps-name">评审</div><div class="ps-detail">14 轮<br>6.0&rarr;8.5</div></div>
+</div>
+
+<h2>三篇论文对比</h2>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>指标</th><th>论文 #1<br><span style="font-weight:400;text-transform:none">自主研究 Agent</span></th><th>论文 #2<br><span style="font-weight:400;text-transform:none">持续学习</span></th><th>论文 #3<br><span style="font-weight:400;text-transform:none">长时序决策</span></th></tr>
+  </thead>
+  <tbody>
+    <tr><td>引用数</td><td>228</td><td>329</td><td class="highlight-cell">384</td></tr>
+    <tr><td>页数</td><td>63</td><td class="highlight-cell">70</td><td>57</td></tr>
+    <tr><td>新增引文 (6月)</td><td>34</td><td>41</td><td class="highlight-cell">66</td></tr>
+    <tr><td>期刊升级</td><td>16</td><td>14</td><td>6</td></tr>
+    <tr><td>评审分数</td><td>8.5/10</td><td>8.5/10</td><td>8.5/10</td></tr>
+    <tr><td>版本</td><td>V5</td><td>V5</td><td>V4</td></tr>
+  </tbody>
+</table>
+
+<h2>新论文：长时序决策</h2>
+
+<p>第三篇论文攻克 AI Agent 领域最难的开放问题之一：<strong>如何在长动作序列中保持行为一致性</strong>。综述覆盖层次化规划（HRL、options 框架）、反应式架构、基于搜索的方法（MCTS、PRM）以及 Agent RL 训练。</p>
+
+<p>核心实验发现：性能随步长呈指数衰减，但 Chain-of-Thought 和层次分解可将衰减常数降低 40-60%。这为设计长时序 Agent 提供了明确的工程指导。</p>
+
+<h2>文献升级：变了什么</h2>
+
+<p>V5 版本不是简单的重新上传。自主文献 Agent 完成了以下工作：</p>
+<ul>
+  <li>对更新后的 arXiv 索引重新执行 50+ 检索查询</li>
+  <li>三篇论文新增 <strong>141 篇参考文献</strong></li>
+  <li>将 <strong>73 篇论文</strong> 深度织入已有叙述（非简单堆砌引用）</li>
+  <li>通过 DBLP 交叉引用 <strong>升级 36 个条目</strong>（从 arXiv 预印本到正式发表）</li>
+  <li>保持新鲜度：35-60% 引用来自过去一年</li>
+</ul>
+
+<h2>开源技能组</h2>
+
+<p>完整的论文写作技能组现已文档化：</p>
+<ul>
+  <li><strong>search_agent</strong> — arXiv 检索、引用验证、DBLP 交叉核实</li>
+  <li><strong>call_api</strong> — 多模型同行评审（3-5 评审人 &times; 5 轮）</li>
+  <li><strong>skill-router</strong> — 子任务动态技能匹配</li>
+  <li><strong>paper_writing</strong> — LaTeX 生成、章节结构、图表规范</li>
+  <li><strong>peer_review_simulation</strong> — 多角色评分 + 迭代修复</li>
+  <li><strong>experiment_design</strong> — 实验设计与执行规划</li>
+</ul>
+
+<p>共计 <strong>49+ 次技能调用</strong>，涉及 7 个独立技能，由 Deli_AutoResearch 主控框架统一协调。</p>
+
+<div class="cta-box">
+  <p><strong>阅读论文、下载 PDF、探索生产统计数据。</strong></p>
+  <a href="auto_research/paper_zh.html">查看 AutoResearch 论文 &rarr;</a>
+</div>
+
+<h2>下一步</h2>
+
+<p>流水线正在趋近一个临界点：主要瓶颈不再是写作质量，而是<em>研究品味</em>——问什么问题、探索什么角度、何时收手。下一个迭代将聚焦假说生成和新颖性检测，从综述合成走向原创贡献。</p>
+
+<p>Stay tuned.</p>
+
+</div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Deli Chen &middot; <a href="index.html">Homepage</a></p>
+  </div>
+</footer>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.lang-en, .lang-zh').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

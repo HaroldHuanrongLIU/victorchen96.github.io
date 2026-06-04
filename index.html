@@ -42,6 +42,12 @@ a:hover { opacity: 0.8; }
 }
 .nav-tab:hover { color: var(--text); }
 .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.nav-new-badge {
+  display: inline-block; font-size: 0.6em; font-weight: 700; padding: 1px 5px;
+  background: #e53935; color: #fff; border-radius: 3px; vertical-align: top;
+  margin-left: 3px; letter-spacing: 0.03em; animation: badge-pulse 2s infinite;
+}
+@keyframes badge-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
 
 /* Pages */
 .page { display: none; padding: 60px 0 80px; min-height: 70vh; }
@@ -233,7 +239,7 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
       <div class="nav-tab" data-page="publications">Publications</div>
       <div class="nav-tab" data-page="talks">Talks & News</div>
       <div class="nav-tab" data-page="collaborators">Collaborators</div>
-      <div class="nav-tab" data-page="auto-research">Auto Research</div>
+      <div class="nav-tab" data-page="auto-research">Auto Research <span class="nav-new-badge">NEW</span></div>
       <div class="nav-tab" data-page="blog">Blog</div>
       <div class="nav-tab" data-page="chill">Chill</div>
     </div>
@@ -622,6 +628,15 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 <section>
   <h2 class="section-title">Blog</h2>
   <div class="paper-list">
+    <a class="paper-item featured" href="blog_auto_research_v2.html">
+      <div>
+        <div class="paper-title">AutoResearch V2: Three Papers, 941 Citations, Zero Human Writing</div>
+        <div class="paper-meta"><span class="paper-venue">June 4, 2026</span><span class="paper-badge badge-nature">New</span></div>
+        <p style="margin-top:8px; font-size:0.85em; color:var(--text-dim); line-height:1.5;">
+          A major update to the AutoResearch project — new Paper #3 on long-horizon decision-making, Papers #1 & #2 republished with 141 new references, and the full paper-writing skill group open-sourced. EN/CN bilingual.
+        </p>
+      </div>
+    </a>
     <a class="paper-item featured" href="blog_code_agents.html">
       <div>
         <div class="paper-title">How Code Agents Saved My INTP Brain (代码 Agent 如何拯救了我的 INTP 大脑)</div>
