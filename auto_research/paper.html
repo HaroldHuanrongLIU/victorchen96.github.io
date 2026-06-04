@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<base href="/auto_research/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deli AutoResearch Papers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --border: #e8e4df;
+  --text: #1a1a1a;
+  --text-dim: #6b6560;
+  --accent: #c0392b;
+  --accent-light: #e74c3c;
+  --blue: #2563eb;
+  --green: #059669;
+  --purple: #7c3aed;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.8; }
+
+.page-header {
+  max-width: 900px; margin: 0 auto; padding: 4rem 2rem 2rem;
+  text-align: center; border-bottom: 2px solid var(--border);
+}
+.page-header h1 {
+  font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700; letter-spacing: -0.01em;
+}
+.page-header .subtitle {
+  margin-top: 0.5rem; color: var(--text-dim); font-size: 1.1rem;
+}
+.page-header .updated {
+  margin-top: 1rem; font-size: 0.85rem; color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.global-stats {
+  max-width: 900px; margin: 2rem auto;
+  display: flex; gap: 1.5rem; padding: 1.5rem 2rem; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap;
+  justify-content: center;
+}
+.global-stats .stat { text-align: center; flex: 1; min-width: 80px; }
+.global-stats .stat .n { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--accent); }
+.global-stats .stat .l { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.papers { max-width: 900px; margin: 0 auto; padding: 2rem; }
+
+.paper-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 2.5rem; margin-bottom: 2.5rem;
+  transition: box-shadow 0.2s;
+}
+.paper-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+.paper-card .badge {
+  display: inline-block; padding: 0.2rem 0.6rem; border-radius: 3px;
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;
+}
+.badge-p1 { background: #fef3c7; color: #92400e; }
+.badge-p2 { background: #dbeafe; color: #1e40af; }
+.badge-p3 { background: #d1fae5; color: #065f46; }
+
+.paper-card h2 {
+  font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+  line-height: 1.3; margin-bottom: 0.75rem;
+}
+.paper-card .meta {
+  color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1rem;
+}
+.paper-card .abstract-text {
+  font-size: 0.92rem; color: var(--text-dim); line-height: 1.7;
+  padding: 1rem 1.5rem; border-left: 3px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.paper-stats {
+  display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+}
+.paper-stats .ps {
+  padding: 0.5rem 1rem; background: var(--bg); border-radius: 4px;
+  font-size: 0.8rem; font-family: var(--font-mono);
+}
+.paper-stats .ps .pn { font-weight: 700; color: var(--accent); }
+
+.download-btn {
+  display: inline-block; padding: 0.7rem 1.8rem;
+  background: var(--accent); color: white; border-radius: 4px;
+  font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+  text-decoration: none; transition: background 0.2s;
+}
+.download-btn:hover { background: var(--accent-light); }
+
+.prod-table {
+  width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 2rem;
+}
+.prod-table th {
+  text-align: left; padding: 0.7rem 1rem; background: var(--bg);
+  border-bottom: 2px solid var(--border); font-family: var(--font-mono);
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+.prod-table td {
+  padding: 0.5rem 1rem; border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.prod-table tr:hover td { background: rgba(0,0,0,0.02); }
+.prod-table .highlight { font-weight: 700; color: var(--text); }
+
+.score-badge {
+  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px;
+  font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem;
+}
+.score-8 { background: #d1fae5; color: #065f46; }
+
+footer {
+  max-width: 900px; margin: 0 auto; padding: 2rem; text-align: center;
+  color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border);
+}
+footer a { color: var(--accent); }
+
+@media (max-width: 768px) {
+  .paper-stats { flex-direction: column; }
+  .global-stats { flex-direction: column; align-items: center; }
+}
+
+/* PDF Viewer Modal */
+.pdf-modal {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center;
+}
+.pdf-modal.active { display: flex; }
+.pdf-modal-content {
+  width: 90%; height: 92%; max-width: 1200px; position: relative;
+  background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.pdf-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.6rem 1.2rem; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.pdf-modal-header .title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); }
+.pdf-modal-header .actions { display: flex; gap: 0.8rem; align-items: center; }
+.pdf-modal-header .actions a {
+  font-size: 0.8rem; color: var(--blue); text-decoration: none; font-family: var(--font-mono);
+}
+.pdf-modal-header .actions a:hover { text-decoration: underline; }
+.pdf-close {
+  background: none; border: none; font-size: 1.5rem; cursor: pointer;
+  color: var(--text-dim); padding: 0.2rem 0.5rem; border-radius: 4px;
+}
+.pdf-close:hover { background: var(--bg); color: var(--text); }
+.pdf-modal iframe {
+  width: 100%; height: calc(100% - 44px); border: none;
+}
+
+.btn-group { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+.preview-btn {
+  display: inline-block; padding: 0.7rem 1.8rem;
+  background: var(--accent); color: white; border-radius: 4px;
+  font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+  text-decoration: none; cursor: pointer; border: none; transition: background 0.2s;
+}
+.preview-btn:hover { background: var(--accent-light); }
+.dl-link {
+  font-size: 0.85rem; color: var(--text-dim); text-decoration: none;
+  border-bottom: 1px dashed var(--border); padding-bottom: 1px;
+}
+.dl-link:hover { color: var(--accent); border-color: var(--accent); }
+.version-tag {
+  font-family: var(--font-mono); font-size: 0.78rem; padding: 0.3rem 0.7rem;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 3px;
+  color: var(--text-dim);
+}
+.bib-btn {
+  font-size: 0.8rem; color: var(--text-dim); cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface); border-radius: 4px;
+  padding: 0.35rem 0.8rem; font-family: var(--font-mono); transition: all 0.2s;
+}
+.bib-btn:hover { border-color: var(--accent); color: var(--accent); }
+.bib-btn.copied { background: #d1fae5; border-color: #059669; color: #059669; }
+.bib-block {
+  display: none; margin-top: 1rem; padding: 1rem; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px; font-family: var(--font-mono);
+  font-size: 0.72rem; line-height: 1.6; white-space: pre-wrap; word-break: break-all;
+  color: var(--text-dim); position: relative;
+}
+.bib-block.open { display: block; }
+.bib-block .bib-copy-inline {
+  position: absolute; top: 0.5rem; right: 0.5rem; font-size: 0.7rem;
+  padding: 0.2rem 0.5rem; border-radius: 3px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
+}
+.bib-block .bib-copy-inline:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div style="display:flex; justify-content:flex-end; padding:1rem 2rem 0; max-width:900px; margin:0 auto;">
+  <div style="display:flex; border:1px solid var(--border); border-radius:4px; overflow:hidden; font-size:0.78rem; font-family:var(--font-mono);">
+    <span style="padding:0.35rem 0.8rem; background:var(--text); color:white; font-weight:600;">EN</span>
+    <a href="paper_zh.html" style="padding:0.35rem 0.8rem; color:var(--text-dim); text-decoration:none;">ZH</a>
+  </div>
+</div>
+
+<div class="page-header">
+  <h1>Deli AutoResearch Papers</h1>
+  <div class="subtitle">Three Survey Papers Generated by Autonomous Research Agents</div>
+  <div class="updated">Last updated: 2026-06-04 &nbsp;|&nbsp; All papers at 8.5/10 peer review</div>
+</div>
+
+<div class="global-stats">
+  <div class="stat"><div class="n">3</div><div class="l">Papers</div></div>
+  <div class="stat"><div class="n">941</div><div class="l">Citations</div></div>
+  <div class="stat"><div class="n">190</div><div class="l">Pages</div></div>
+  <div class="stat"><div class="n">8.5</div><div class="l">Avg Score</div></div>
+  <div class="stat"><div class="n">~2M</div><div class="l">Tokens</div></div>
+  <div class="stat"><div class="n">17+</div><div class="l">Subagents</div></div>
+</div>
+
+<div class="papers">
+
+<!-- Paper 1 -->
+<div class="paper-card">
+  <span class="badge badge-p1">Paper #1</span>
+  <h2>From Copilots to Colleagues: A Survey of Autonomous Research Agents in the Age of Foundation Models</h2>
+  <div class="abstract-text">
+    This survey proposes a five-level autonomy taxonomy (L1&ndash;L5), identifies four dominant architectural patterns,
+    and systematically compares 17 major systems across a six-dimensional feature matrix. Includes an illustrative
+    pilot study comparing 5 frontier models across 3 research tasks and 3 agent architectures, with a formal
+    Architecture-Capability Trade-off Conjecture.
+  </div>
+  <div class="paper-stats">
+    <div class="ps"><span class="pn">228</span> citations</div>
+    <div class="ps"><span class="pn">63</span> pages</div>
+    <div class="ps"><span class="pn">60.5%</span> within 1yr</div>
+    <div class="ps"><span class="pn">29.8%</span> accepted</div>
+    <div class="ps"><span class="score-badge score-8">8.5/10</span> review</div>
+  </div>
+  <div class="btn-group">
+    <button class="preview-btn" onclick="openPDF('auto_research_survey.pdf', 'Paper #1: Autonomous Research Agents')">Online Preview</button>
+    <a href="auto_research_survey.pdf" download class="dl-link">Download (628 KB)</a>
+    <button class="bib-btn" onclick="toggleBib('bib1')">Cite (BibTeX)</button>
+    <span class="version-tag">V5 &middot; 2026-06-04</span>
+  </div>
+  <div class="bib-block" id="bib1">
+    <button class="bib-copy-inline" onclick="copyBib('bib1')">Copy</button>@article{chendeli_202606_auto_research_survey,
+  title={From Copilots to Colleagues: A Survey of Autonomous Research Agents in the Age of Foundation Models},
+  author={Chen, Deli},
+  journal={arXiv preprint},
+  year={2026},
+  note={Generated by Deli AutoResearch framework. 228 citations, 63 pages, peer review 8.5/10}
+}</div>
+</div>
+
+<!-- Paper 2 -->
+<div class="paper-card">
+  <span class="badge badge-p2">Paper #2</span>
+  <h2>Never Stop Learning: A Unified Survey of Continual Learning and Self-Improvement in Large Language Models</h2>
+  <div class="abstract-text">
+    Unifies continual learning and self-improvement under a three-axis taxonomy (Strategy &times; Scope &times; Objective).
+    Formalizes CL&times;SI interaction via bilevel optimization with impossibility conjectures. Includes two pilot experiments:
+    a CL&times;SI interaction study revealing GPT-5.2&rsquo;s deterministic SI collapse, and a knowledge retention-acquisition
+    trade-off study identifying Self-Verification as Pareto-optimal across 5 domains.
+  </div>
+  <div class="paper-stats">
+    <div class="ps"><span class="pn">329</span> citations</div>
+    <div class="ps"><span class="pn">70</span> pages</div>
+    <div class="ps"><span class="pn">54.3%</span> within 1yr</div>
+    <div class="ps"><span class="pn">30.1%</span> accepted</div>
+    <div class="ps"><span class="score-badge score-8">8.5/10</span> review</div>
+  </div>
+  <div class="btn-group">
+    <button class="preview-btn" onclick="openPDF('continual_learning_survey.pdf', 'Paper #2: Continual Learning')">Online Preview</button>
+    <a href="continual_learning_survey.pdf" download class="dl-link">Download (777 KB)</a>
+    <button class="bib-btn" onclick="toggleBib('bib2')">Cite (BibTeX)</button>
+    <span class="version-tag">V5 &middot; 2026-06-04</span>
+  </div>
+  <div class="bib-block" id="bib2">
+    <button class="bib-copy-inline" onclick="copyBib('bib2')">Copy</button>@article{chendeli_2026_continue_learning_survey,
+  title={Never Stop Learning: A Unified Survey of Continual Learning and Self-Improvement in Large Language Models},
+  author={Chen, Deli},
+  journal={arXiv preprint},
+  year={2026},
+  note={Generated by Deli AutoResearch framework. 326 citations, 70 pages, peer review 8.5/10}
+}</div>
+</div>
+
+<!-- Paper 3 -->
+<div class="paper-card">
+  <span class="badge badge-p3">Paper #3</span>
+  <h2>Navigating the Long Horizon: A Comprehensive Survey of Agent Architectures and Reinforcement Learning for Extended Sequential Decision-Making</h2>
+  <div class="abstract-text">
+    Surveys 384 papers on long-horizon sequential decision-making, covering hierarchical planning, reactive agents,
+    search-based methods (MCTS, PRM), and RL for agents. Features a rigorous horizon scaling experiment across
+    5 frontier models &times; 5 horizon lengths &times; 3 conditions &times; 3 task types, with exponential decay fitting
+    (R&sup2; &gt; 0.93). Chain-of-thought and hierarchical planning significantly reduce horizon degradation.
+  </div>
+  <div class="paper-stats">
+    <div class="ps"><span class="pn">384</span> citations</div>
+    <div class="ps"><span class="pn">57</span> pages</div>
+    <div class="ps"><span class="pn">35.4%</span> within 1yr</div>
+    <div class="ps"><span class="pn">49.2%</span> accepted</div>
+    <div class="ps"><span class="score-badge score-8">8.5/10</span> review</div>
+  </div>
+  <div class="btn-group">
+    <button class="preview-btn" onclick="openPDF('long_horizon_survey.pdf', 'Paper #3: Long-Horizon Tasks')">Online Preview</button>
+    <a href="long_horizon_survey.pdf" download class="dl-link">Download (762 KB)</a>
+    <button class="bib-btn" onclick="toggleBib('bib3')">Cite (BibTeX)</button>
+    <span class="version-tag">V4 &middot; 2026-06-04</span>
+  </div>
+  <div class="bib-block" id="bib3">
+    <button class="bib-copy-inline" onclick="copyBib('bib3')">Copy</button>@article{chendeli_202606_long_horizon_survey,
+  title={Navigating the Long Horizon: A Comprehensive Survey of Agent Architectures and Reinforcement Learning for Extended Sequential Decision-Making},
+  author={Chen, Deli},
+  journal={arXiv preprint},
+  year={2026},
+  note={Generated by Deli AutoResearch framework. 384 citations, 57 pages, peer review 8.5/10}
+}</div>
+</div>
+
+<!-- Production Statistics -->
+<section style="margin-top: 2rem;">
+  <h2 style="font-family:var(--font-display); font-size:1.8rem; font-weight:700; margin-bottom:1.5rem; padding-bottom:0.5rem; border-bottom:2px solid var(--border);">Production Statistics</h2>
+
+  <table class="prod-table">
+    <thead>
+      <tr><th>Metric</th><th>Paper #1</th><th>Paper #2</th><th>Paper #3</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>BibTeX entries</td><td>228</td><td>326</td><td>384</td><td class="highlight">938</td></tr>
+      <tr><td>PDF pages</td><td>63</td><td>70</td><td>57</td><td class="highlight">190</td></tr>
+      <tr><td>Figures</td><td>5+</td><td>8+</td><td>13</td><td class="highlight">26+</td></tr>
+      <tr><td>Tables</td><td>14+</td><td>15+</td><td>30+</td><td class="highlight">59+</td></tr>
+      <tr><td>Peer review (final)</td><td>8.5/10</td><td>8.5/10</td><td>8.5/10</td><td class="highlight">8.5 avg</td></tr>
+      <tr><td>Review iterations</td><td>V1&rarr;V5</td><td>V1&rarr;V5</td><td>V1&rarr;V4</td><td class="highlight">14 rounds</td></tr>
+      <tr style="background:#f8fdf8"><td colspan="5" style="font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-dim); padding-top:1rem;">Compute Consumption</td></tr>
+      <tr><td>Total iterations (agent turns)</td><td>~60</td><td>~80</td><td>~70</td><td class="highlight">~210</td></tr>
+      <tr><td>Output tokens</td><td>~550K</td><td>~720K</td><td>~680K</td><td class="highlight">~1.95M</td></tr>
+      <tr><td>Tool invocations</td><td>~380</td><td>~470</td><td>~520</td><td class="highlight">~1,370</td></tr>
+      <tr><td>Subagents spawned</td><td>12+</td><td>18+</td><td>18+</td><td class="highlight">48+</td></tr>
+      <tr><td>Wall clock (total)</td><td>~10h</td><td>~12h</td><td>~16h</td><td class="highlight">~38h</td></tr>
+      <tr style="background:#f8fdf8"><td colspan="5" style="font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-dim); padding-top:1rem;">Citation Quality</td></tr>
+      <tr><td>Venue upgrades</td><td>16</td><td>14</td><td>6</td><td class="highlight">36</td></tr>
+      <tr><td>New refs added (June)</td><td>34</td><td>41</td><td>66</td><td class="highlight">141</td></tr>
+      <tr><td>Papers woven in</td><td>15</td><td>25</td><td>33</td><td class="highlight">73</td></tr>
+      <tr><td>1yr citation ratio</td><td>60.5%</td><td>54.3%</td><td>35.4%</td><td>&mdash;</td></tr>
+      <tr><td>Accepted ratio</td><td>29.8%</td><td>30.1%</td><td>49.2%</td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Subagent Consumption (Literature + Experiment + Review Cycle)</h3>
+  <table class="prod-table">
+    <thead>
+      <tr><th>Phase</th><th>Subagents</th><th>Tokens</th><th>Tool Uses</th><th>Wall Clock</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Literature collection (3 papers)</td><td>3</td><td>386,359</td><td>332</td><td>58 min</td></tr>
+      <tr><td>Text weaving (3 papers)</td><td>3</td><td>203,204</td><td>117</td><td>44 min</td></tr>
+      <tr><td>Experiment design + execution</td><td>2</td><td>111,115</td><td>100</td><td>46 min</td></tr>
+      <tr><td>Experiment integration + Review V3</td><td>1</td><td>64,460</td><td>45</td><td>27 min</td></tr>
+      <tr><td>Weakness fix + Review V4</td><td>1</td><td>87,498</td><td>58</td><td>26 min</td></tr>
+      <tr><td class="highlight">Total</td><td class="highlight">10+</td><td class="highlight">~852,636</td><td class="highlight">652</td><td class="highlight">~201 min</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Review Score Trajectory</h3>
+  <table class="prod-table">
+    <thead>
+      <tr><th>Paper</th><th>V1</th><th>V2</th><th>V3</th><th>V4</th><th>V5 (Final)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Paper #1 (Auto-Research)</td><td>6.0</td><td>6.5</td><td>7.5</td><td>8.0</td><td class="highlight">8.5 &check;</td></tr>
+      <tr><td>Paper #2 (Continual Learning)</td><td>6.0</td><td>6.5</td><td>7.0</td><td>8.0</td><td class="highlight">8.5 &check;</td></tr>
+      <tr><td>Paper #3 (Long-Horizon)</td><td>7.0</td><td>3.0*</td><td>8.0</td><td class="highlight">8.5 &check;</td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.8rem; color:var(--text-dim); margin-top:0.5rem;">* Paper #3 V2 scored by adversarial reviewer with strict experimental standards; V3 addressed all concerns with redesigned horizon scaling experiment. V5 improvements focus on analytical depth, structural cohesion, and cross-benchmark validation.</p>
+
+  <!-- Literature Funnel -->
+  <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Literature Funnel (4-Stage Pipeline)</h3>
+  <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:1rem;">Each paper goes through a systematic 4-stage literature review pipeline: <strong>Recall</strong> (broad keyword search via site:arxiv.org) &rarr; <strong>Score</strong> (LQS multi-dimensional quality scoring) &rarr; <strong>Classify</strong> (A/B/C/D citation depth assignment) &rarr; <strong>Upgrade</strong> (arXiv preprint &rarr; accepted venue via DBLP).</p>
+
+  <table class="prod-table">
+    <thead>
+      <tr><th>Stage</th><th>Paper #1</th><th>Paper #2</th><th>Paper #3</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Stage 1: Recall</strong><br><span style="font-size:0.7rem;color:var(--text-dim)">Keyword queries &times; site:arxiv.org</span></td>
+        <td>20 queries<br>170 results</td><td>10 queries<br>83 results</td><td>20+ queries<br>134 results</td><td class="highlight">50+ queries<br>387 results</td></tr>
+      <tr><td><strong>Stage 2: Score (LQS)</strong><br><span style="font-size:0.7rem;color:var(--text-dim)">Recency 30% + Citation 25% + Venue 20% + Institution 10% + Acceptance 15%</span></td>
+        <td>50 scored<br><span style="color:var(--green)">14 must-cite</span><br>36 conditional<br>0 dropped</td>
+        <td>45 scored<br><span style="color:var(--green)">45 must-cite</span><br>0 conditional<br>0 dropped</td>
+        <td>133 scored<br><span style="color:var(--green)">72 must-cite</span><br>51 conditional<br>10 dropped</td>
+        <td class="highlight">228 scored<br>131 must-cite<br>87 conditional<br>10 dropped</td></tr>
+      <tr><td><strong>Stage 3: Classify</strong><br><span style="font-size:0.7rem;color:var(--text-dim)">A = deep discussion, B = detailed cite, C = brief cite, D = drop</span></td>
+        <td>A: 5 &bull; B: 10<br>C: 35 &bull; D: 0</td>
+        <td>A: 4 &bull; B: 12<br>C: 29 &bull; D: 0</td>
+        <td>A: 7 &bull; B: 13<br>C: 103 &bull; D: 10</td>
+        <td class="highlight">A: 16 &bull; B: 35<br>C: 167 &bull; D: 10</td></tr>
+      <tr><td><strong>Stage 4: Upgrade</strong><br><span style="font-size:0.7rem;color:var(--text-dim)">arXiv &rarr; @inproceedings via DBLP/OpenReview</span></td>
+        <td>16 upgraded</td><td>14 upgraded</td><td>6 upgraded</td><td class="highlight">36 upgraded</td></tr>
+      <tr style="background:#f8fdf8"><td><strong>Final BibTeX</strong></td>
+        <td class="highlight">228 entries</td><td class="highlight">329 entries</td><td class="highlight">384 entries</td><td class="highlight">941 entries</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:0.8rem; color:var(--text-dim); margin-top:0.8rem;">
+    <strong>LQS thresholds</strong>: &ge;7.0 = must-cite (high quality + high relevance), 5.0&ndash;7.0 = conditional (fills taxonomy gap), &lt;5.0 = dropped.<br>
+    <strong>Citation depth</strong>: A-level papers get 1&ndash;3 paragraphs of discussion; B-level get 2&ndash;5 sentences; C-level get a single citation in context; D-level are excluded from the paper.
+  </p>
+
+  <!-- Skill Hub Usage -->
+  <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem;">Skill Hub Usage</h3>
+  <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:1rem;">Skills invoked from <a href="https://yinghuo-hg.deepseek.com/chendeli/service-data/skill_hub/" style="color:var(--accent)">Skill Hub</a> during the research pipeline.</p>
+
+  <table class="prod-table">
+    <thead>
+      <tr><th>Skill</th><th>ID</th><th>Invocations</th><th>Phase</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="highlight">search_agent</td><td>#5</td><td>12+</td><td>Literature &amp; Verify</td><td>arXiv search, citation verification, DBLP cross-check, acceptance status lookup</td></tr>
+      <tr><td class="highlight">call_api</td><td>#2</td><td>8+</td><td>Review &amp; Experiment</td><td>Multi-model peer review (3&ndash;5 reviewers &times; 5 rounds), horizon scaling experiment (3300 API calls)</td></tr>
+      <tr><td class="highlight">static_file_service</td><td>#6</td><td>4</td><td>Deploy</td><td>PDF hosting via hfai, index.html generation, service restart</td></tr>
+      <tr><td class="highlight">skill-router</td><td>#57</td><td>3</td><td>Orchestration</td><td>Dynamic skill matching for sub-tasks (literature, experiment, deployment)</td></tr>
+      <tr><td>Deli_AutoResearch</td><td>&mdash;</td><td>3</td><td>Orchestration</td><td>Master framework: anti-loop, heartbeat, state management, multi-track coordination</td></tr>
+      <tr><td>paper_writing</td><td>&mdash;</td><td>3</td><td>Writing</td><td>LaTeX generation, section structure, figure/table standards, compilation</td></tr>
+      <tr><td>peer_review_simulation</td><td>&mdash;</td><td>14</td><td>Review</td><td>Multi-persona scoring (5 reviewer types), iterative fix cycles (V1&rarr;V5)</td></tr>
+      <tr><td>experiment_design</td><td>&mdash;</td><td>2</td><td>Experiment</td><td>Horizon scaling study design, CL&times;SI interaction experiment design</td></tr>
+      <tr><td style="border-bottom:none">&nbsp;</td><td style="border-bottom:none"></td><td style="border-bottom:none"></td><td style="border-bottom:none"></td><td style="border-bottom:none"></td></tr>
+      <tr style="background:#f8fdf8"><td class="highlight">Total skill invocations</td><td>&mdash;</td><td class="highlight">49+</td><td>&mdash;</td><td>Across 3 papers &times; 5+ review rounds &times; multi-stage pipeline</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:0.8rem; color:var(--text-dim); margin-top:0.8rem;">
+    <strong>Skill Hub API</strong>: <code style="font-size:0.75rem;background:var(--bg);padding:2px 6px;border-radius:3px;">https://yinghuo-hg.deepseek.com/chendeli/service-data/skill_hub/api/skills</code> &mdash; 44 registered skills, 7 used in this project.
+  </p>
+</section>
+
+</div>
+
+<div style="margin-top:2rem; padding:1.5rem; background:var(--surface); border:1px solid var(--border); border-radius:6px; text-align:center;">
+  <p style="font-size:0.9rem; color:var(--text-dim); margin-bottom:0.8rem;">Want to see how these papers were produced?</p>
+  <a href="https://yinghuo-hg.deepseek.com/chendeli/service-data/auto_research/skill/paper-writing.html" target="_blank" style="display:inline-block; padding:0.6rem 1.5rem; background:var(--accent); color:white; border-radius:4px; text-decoration:none; font-size:0.9rem; font-weight:600;">View Skill Group: Scientific Paper Writing &rarr;</a>
+</div>
+
+<footer>
+  <p>Generated by Deli AutoResearch Pipeline &nbsp;|&nbsp; May&ndash;June 2026</p>
+  <p style="margin-top:0.5rem;"><a href="https://yinghuo-hg.deepseek.com/chendeli/service-data/auto_research/" target="_blank">&larr; Back to AutoResearch</a> &nbsp;|&nbsp; <a href="https://yinghuo-hg.deepseek.com/chendeli/service-data/auto_research/skill/paper-writing.html" target="_blank">Skill Group &rarr;</a></p>
+</footer>
+
+<!-- PDF Preview Modal -->
+<div class="pdf-modal" id="pdfModal">
+  <div class="pdf-modal-content">
+    <div class="pdf-modal-header">
+      <span class="title" id="pdfTitle">Loading...</span>
+      <div class="actions">
+        <a id="pdfDownload" href="#" download>Download</a>
+        <a id="pdfNewTab" href="#" target="_blank">Open in new tab</a>
+        <button class="pdf-close" onclick="closePDF()">&times;</button>
+      </div>
+    </div>
+    <iframe id="pdfFrame" src=""></iframe>
+  </div>
+</div>
+
+<script>
+function openPDF(url, title) {
+  const modal = document.getElementById('pdfModal');
+  const frame = document.getElementById('pdfFrame');
+  const titleEl = document.getElementById('pdfTitle');
+  const dlLink = document.getElementById('pdfDownload');
+  const newTab = document.getElementById('pdfNewTab');
+
+  titleEl.textContent = title || url;
+  frame.src = url;
+  dlLink.href = url;
+  newTab.href = url;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Reset version selects
+  document.querySelectorAll('.version-select').forEach(s => s.selectedIndex = 0);
+}
+
+function closePDF() {
+  const modal = document.getElementById('pdfModal');
+  const frame = document.getElementById('pdfFrame');
+  modal.classList.remove('active');
+  frame.src = '';
+  document.body.style.overflow = '';
+}
+
+// Close on Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
+
+// Close on backdrop click
+document.getElementById('pdfModal').addEventListener('click', function(e) {
+  if (e.target === this) closePDF();
+});
+
+// BibTeX toggle and copy
+function toggleBib(id) {
+  const block = document.getElementById(id);
+  block.classList.toggle('open');
+}
+
+function copyBib(id) {
+  const block = document.getElementById(id);
+  const text = block.textContent.replace('Copy', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = block.querySelector('.bib-copy-inline');
+    btn.textContent = 'Copied!';
+    btn.style.background = '#d1fae5';
+    btn.style.borderColor = '#059669';
+    btn.style.color = '#059669';
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
