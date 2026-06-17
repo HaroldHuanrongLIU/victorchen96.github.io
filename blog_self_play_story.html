@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Draft to Strong-Accept: How a Self-Play Survey Hit 8.6 - Deli Chen</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c0f; --surface: #16161a; --surface-2: #1e1e24;
+  --text: #e8e8ed; --text-dim: #94949e; --accent: #4fc3f7;
+  --accent-warm: #ff8a65; --accent-green: #66bb6a; --accent-gold: #ffd54f;
+  --accent-red: #ef5350;
+  --border: #2a2a32; --glow: rgba(79, 195, 247, 0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; min-height: 100vh; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+a:hover { opacity: 0.8; }
+
+.container { max-width: 720px; margin: 0 auto; padding: 60px 32px 80px; }
+
+.blog-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.blog-back { font-size: 0.85em; color: var(--text-dim); margin-bottom: 24px; display: inline-block; }
+.blog-back:hover { color: var(--accent); }
+.blog-title { font-size: 2.2em; font-weight: 700; line-height: 1.3; margin-bottom: 12px; letter-spacing: -0.02em; }
+.blog-subtitle { font-size: 1.1em; color: var(--text-dim); margin-bottom: 16px; }
+.blog-meta { font-size: 0.85em; color: var(--text-dim); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+.lang-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-left: auto; }
+.lang-btn {
+  padding: 5px 14px; font-size: 0.82em; cursor: pointer; transition: all 0.2s;
+  background: transparent; color: var(--text-dim); border: none; font-family: inherit;
+}
+.lang-btn.active { background: var(--accent); color: #000; font-weight: 600; }
+.lang-btn:hover:not(.active) { color: var(--text); }
+
+.blog-content { font-size: 1.02em; }
+.blog-content h2 {
+  font-size: 1.3em; font-weight: 700; margin: 48px 0 16px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  color: var(--accent);
+}
+.blog-content p { margin-bottom: 16px; }
+.blog-content ul, .blog-content ol { margin-bottom: 16px; padding-left: 24px; }
+.blog-content li { margin-bottom: 8px; }
+.blog-content strong { color: var(--text); }
+.blog-content code {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.88em;
+  background: var(--surface-2); padding: 2px 6px; border-radius: 4px;
+}
+
+.stat-banner {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px;
+  padding: 20px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; margin: 24px 0;
+}
+.stat-banner .sb-item { text-align: center; }
+.stat-banner .sb-num { font-size: 1.8em; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+.stat-banner .sb-label { font-size: 0.72em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.comparison-table {
+  width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 0.85em;
+}
+.comparison-table th {
+  background: var(--surface-2); padding: 10px 12px; text-align: left;
+  border-bottom: 2px solid var(--accent); font-weight: 600; font-size: 0.82em;
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+.comparison-table td {
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+}
+.comparison-table tr:hover td { background: var(--surface); }
+.highlight-cell { color: var(--accent-green); font-weight: 600; }
+.down-cell { color: var(--accent-red); font-weight: 600; }
+.peak-cell { color: var(--accent-gold); font-weight: 600; }
+
+.note-box {
+  margin: 24px 0; padding: 16px 20px; background: var(--surface);
+  border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+}
+.note-box.warn { border-left-color: var(--accent-warm); }
+.note-box .nb-title { font-weight: 700; margin-bottom: 6px; color: var(--text); }
+.note-box .nb-body { font-size: 0.9em; color: var(--text-dim); line-height: 1.65; }
+
+.cta-box {
+  margin: 32px 0; padding: 20px 24px; background: linear-gradient(135deg, rgba(79,195,247,0.05), var(--surface));
+  border: 1px solid var(--accent); border-radius: 10px; text-align: center;
+}
+.cta-box a {
+  display: inline-block; margin-top: 12px; padding: 10px 24px;
+  background: var(--accent); color: #000; border-radius: 6px;
+  font-weight: 600; font-size: 0.92em;
+}
+
+.lang-en, .lang-zh { display: none; }
+.lang-en.active, .lang-zh.active { display: block; }
+
+footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-dim); font-size: 0.82em; }
+
+@media (max-width: 600px) {
+  .blog-title { font-size: 1.6em; }
+  .stat-banner { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="blog-header">
+  <a href="index.html" class="blog-back">&larr; Back to Homepage</a>
+  <div style="display:flex; justify-content:space-between; align-items:start; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h1 class="blog-title lang-en active">From Draft to Strong-Accept: How a Self-Play Survey Hit 8.6</h1>
+      <h1 class="blog-title lang-zh">从初稿到 Strong-Accept：一篇自我博弈综述如何被推到 8.6</h1>
+      <p class="blog-subtitle lang-en active">An autonomous framework took a survey from a rough draft to a 285B-experiment-backed paper across 16 review rounds</p>
+      <p class="blog-subtitle lang-zh">一个自主框架如何用 16 轮评审，把综述从粗糙初稿推成有 285B 实验支撑的论文</p>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" onclick="switchLang('zh')">ZH</button>
+    </div>
+  </div>
+  <div class="blog-meta">
+    <span>Deli Chen</span>
+    <span>June 17, 2026</span>
+    <span>6 min read</span>
+  </div>
+</div>
+
+<!-- English Version -->
+<div class="blog-content lang-en active">
+
+<p>This is the story of <strong>Paper #4</strong> in my AutoResearch project: <em>Self-Play in the Age of Foundation Models — A Comprehensive Survey from Game-Theoretic Foundations to Open-Ended Learning</em>. Unlike the first three surveys, this one was not just written by the agent framework — it was <strong>argued with, stress-tested, and experimentally validated</strong> by it over 16 review rounds, ending at a median peer-review score of <strong>8.6/10</strong> (strong accept).</p>
+
+<p style="font-size:0.82rem; color:#8b949e; padding:0.6rem 1rem; border-left:3px solid #2a2a32; margin:1rem 0;"><em>Disclaimer: This is a personal hobby project. All opinions expressed are my own and do not represent any organization.</em></p>
+
+<div class="stat-banner">
+  <div class="sb-item"><div class="sb-num">8.6</div><div class="sb-label">Peak Median</div></div>
+  <div class="sb-item"><div class="sb-num">16</div><div class="sb-label">Review Rounds</div></div>
+  <div class="sb-item"><div class="sb-num">75</div><div class="sb-label">Pages</div></div>
+  <div class="sb-item"><div class="sb-num">217</div><div class="sb-label">Citations</div></div>
+  <div class="sb-item"><div class="sb-num">285B</div><div class="sb-label">RL Model</div></div>
+  <div class="sb-item"><div class="sb-num">12</div><div class="sb-label">RL Runs</div></div>
+</div>
+
+<h2>The Score Trajectory: Not a Straight Line</h2>
+
+<p>What makes this paper interesting is that its score did <strong>not</strong> climb monotonically. The agent ran a five-persona peer review after each revision, and the median moved up and down honestly:</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>Version</th><th>Score</th><th>What happened</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>V4–V10</strong></td><td>7.0 → 8.4</td><td>Drafting: taxonomy, sections, and three original theorems. Citations grew from 0 to 207.</td></tr>
+    <tr><td><strong>V11</strong></td><td class="peak-cell">8.5</td><td>The 285B GRPO verifier-noise experiment landed in &sect;8 — the paper turned from a pure survey into one with an original large-scale experiment.</td></tr>
+    <tr><td><strong>V12</strong></td><td class="down-cell">8.2 &darr;</td><td>The only decline. An external citation check found three defective references; the score was lowered to the paper's true state, not preserved.</td></tr>
+    <tr><td><strong>V13</strong></td><td class="highlight-cell">8.4</td><td>A 2000-step long-horizon run (8.3&times; the original length) tested the KL-buffering hypothesis; data provenance was corrected.</td></tr>
+    <tr><td><strong>V14</strong></td><td>8.4</td><td>Seed replication + KL ablation turned "buffering" from a hypothesis into evidence. Bottleneck shifted to theoretical rigor.</td></tr>
+    <tr><td><strong>V15</strong></td><td class="peak-cell">8.5</td><td>Held-out KL-endpoint study; parallel work started on four theoretical sub-problems.</td></tr>
+    <tr><td><strong>V16</strong></td><td class="peak-cell">8.6 &check;</td><td>Theory hardening landed — series best.</td></tr>
+  </tbody>
+</table>
+
+<div class="note-box warn">
+  <div class="nb-title">Why V12 is the most important version</div>
+  <div class="nb-body">When the first external citation check found three submission-blocking references — one nonexistent paper, one with the wrong authors, and one whose arXiv ID pointed to an unrelated paper — the framework lowered its own score from 8.5 to 8.2 rather than quietly keeping the higher number. An autonomous pipeline that will mark its own work <em>down</em> when the evidence demands it is far more trustworthy than one that only ever climbs. All three were fixed in the next iteration.</div>
+</div>
+
+<h2>The 285B RL Experiment: The Core Differentiator</h2>
+
+<p>The key decision was to validate the survey's central claim on a <strong>real 285B-parameter model</strong> (DeepSeek-V4) rather than a small-model demonstration. The setup: GRPO training, batch 512, N=16, 32K context, on 18,953 math-reasoning problems. The verifier flips its reward with probability &epsilon; — and the claim is that &epsilon; sets the ceiling on self-play improvement.</p>
+
+<p>Two findings carried the paper:</p>
+<ul>
+  <li><strong>Improvement falls monotonically with verifier noise.</strong> Across &epsilon; &isin; {0, 0.10, 0.30, 0.45}, the relative change in training-distribution accuracy was <code>+4.8 / +0.1 / &minus;4.1 / &minus;6.6</code> percent — strictly monotone, and matching the ordering predicted by the paper's own theorem.</li>
+  <li><strong>A KL anchor buffers against noise.</strong> Holding &epsilon;=0.30 and sweeping the KL coefficient gave <code>&minus;9.9 / &minus;4.1 / +0.8</code> percent for KL = 0 / 0.001 / 0.01. The held-out KL-endpoint study then showed the buffer is a genuine dial with a sweet spot, not a one-way knob — there is a real tradeoff between training-distribution gains and held-out performance.</li>
+</ul>
+
+<p>Twelve GRPO runs in total, about <strong>3,570 GPU-hours</strong> of compute. Five separate submission failures along the way were all diagnosed and fixed autonomously — including a recurring type error where a learning rate in scientific notation was parsed as a string. After the fourth recurrence, the framework wrote a pre-submission check script and baked the lesson into its own operating constraints.</p>
+
+<h2>Five Personas, One Honest Median</h2>
+
+<p>Every review round is scored in parallel by five independent reviewer personas, each with a different bias:</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>Persona</th><th>Role</th><th>What they push on</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>R1</strong></td><td>Experimentalist</td><td>Do the numbers in the paper match the raw experiment logs, line by line?</td></tr>
+    <tr><td><strong>R2</strong></td><td>Theorist</td><td>Are the proofs rigorous? <em>This was the binding constraint for most of the paper's life.</em></td></tr>
+    <tr><td><strong>R3</strong></td><td>Perfectionist</td><td>Table consistency, abstract accuracy, citation hygiene.</td></tr>
+    <tr><td><strong>R4</strong></td><td>Synthesizer</td><td>Does each addition answer a question the paper itself raised?</td></tr>
+    <tr><td><strong>R5</strong></td><td>Newcomer</td><td>Can a non-expert navigate it? (A reading guide and abbreviations table gave the largest single jump.)</td></tr>
+  </tbody>
+</table>
+
+<p>The median — not the mean — is the reported score, so a single enthusiastic reviewer can't inflate it. For most of the paper's life, the theorist (R2) sat at 8.0 and held the median down. That is exactly the signal that mattered.</p>
+
+<h2>V16: Theory Hardening Was the Last Mile</h2>
+
+<p>By V14 the experiments were solid, but R2 kept the median pinned: the noise-floor argument and the KL-ablation sign weren't reconciled with the theory. The fix was not more experiments — it was <strong>new mathematics</strong>. Three sub-problems were solved and integrated:</p>
+
+<ol>
+  <li><strong>Noise-floor recurrence.</strong> An exact closed-form re-derivation showing the floor is &Theta;(&eta;T) under harmonic coverage (which also caught a dropped-factor error in the paper's own draft), with a genuine constant floor &eta;/&rho; under an explicit mixing assumption.</li>
+  <li><strong>Coupled-floor lemma.</strong> A rigorous Gibbs &rarr; Jensen &rarr; Pinsker chain bounding the KL-anchor displacement.</li>
+  <li><strong>Matching lower bound.</strong> A persistence dichotomy proving the floor's order is optimal.</li>
+</ol>
+
+<p>That carried the median from 8.5 to 8.6. Notably, this round was done overnight by a <strong>serial single-agent loop</strong> — two earlier attempts at parallel multi-agent workflows stalled and burned most of the round's tokens before the actual proofs came from the simpler serial approach. That lesson is now part of the framework's memory.</p>
+
+<div class="cta-box">
+  <p><strong>Read the full paper, the production statistics, and the four-paper comparison.</strong></p>
+  <a href="auto_research/paper.html">View AutoResearch Papers &rarr;</a>
+</div>
+
+<h2>What I Take Away</h2>
+
+<p>The first three surveys showed an agent framework can <em>write</em> a credible paper. This one showed something harder: it can <strong>run a real experiment to test the paper's own claim, score itself honestly (including downward), and close a theory gap with new math</strong> — over six days, largely unattended. The remaining gap to a 9.0 is a single open problem (formalizing the held-out &harr; exploitability map), left as post-publication work.</p>
+
+<p>Stay tuned.</p>
+
+</div>
+
+<!-- Chinese Version -->
+<div class="blog-content lang-zh">
+
+<p>这是我 AutoResearch 项目里 <strong>第四篇论文</strong> 的故事：《基础模型时代的自我博弈：从博弈论基础到开放式学习的综合综述》。和前三篇综述不同，这一篇不只是被 Agent 框架"写出来"——它被框架<strong>反复质疑、压力测试、并用真实实验验证</strong>，历经 16 轮评审，最终中位分停在 <strong>8.6/10</strong>（strong accept）。</p>
+
+<p style="font-size:0.82rem; color:#8b949e; padding:0.6rem 1rem; border-left:3px solid #2a2a32; margin:1rem 0;"><em>声明：纯个人兴趣项目，不代表任何组织的立场，所有观点仅代表我个人。</em></p>
+
+<div class="stat-banner">
+  <div class="sb-item"><div class="sb-num">8.6</div><div class="sb-label">最高中位分</div></div>
+  <div class="sb-item"><div class="sb-num">16</div><div class="sb-label">评审轮次</div></div>
+  <div class="sb-item"><div class="sb-num">75</div><div class="sb-label">页数</div></div>
+  <div class="sb-item"><div class="sb-num">217</div><div class="sb-label">引用</div></div>
+  <div class="sb-item"><div class="sb-num">285B</div><div class="sb-label">RL 模型</div></div>
+  <div class="sb-item"><div class="sb-num">12</div><div class="sb-label">RL 实验</div></div>
+</div>
+
+<h2>评分轨迹：不是一条直线</h2>
+
+<p>这篇论文有意思的地方在于，分数<strong>不是</strong>单调上涨的。每次改稿后，Agent 都会跑一轮五人格同行评审，中位分如实地上下波动：</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>版本</th><th>分数</th><th>发生了什么</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>V4–V10</strong></td><td>7.0 → 8.4</td><td>初稿阶段：三轴分类法、各章节、三个原创定理。引用从 0 累积到 207 条。</td></tr>
+    <tr><td><strong>V11</strong></td><td class="peak-cell">8.5</td><td>285B GRPO 验证器噪声实验写入 &sect;8——论文由纯综述变为含原创大规模实验。</td></tr>
+    <tr><td><strong>V12</strong></td><td class="down-cell">8.2 &darr;</td><td>唯一一次下降。外部文献核查发现 3 条问题引用；按论文真实状态据实降分，不保留此前的 8.5。</td></tr>
+    <tr><td><strong>V13</strong></td><td class="highlight-cell">8.4</td><td>2000 步长程实验（原长度的 8.3 倍）检验 KL-buffering 假设；同时修正了数据来源。</td></tr>
+    <tr><td><strong>V14</strong></td><td>8.4</td><td>种子复现 + KL 消融把"buffering"从假设变为证据。瓶颈转移到理论严谨性。</td></tr>
+    <tr><td><strong>V15</strong></td><td class="peak-cell">8.5</td><td>KL 端点 held-out 研究；并行启动四个理论子问题的研究。</td></tr>
+    <tr><td><strong>V16</strong></td><td class="peak-cell">8.6 &check;</td><td>理论加固落地——系列最高分。</td></tr>
+  </tbody>
+</table>
+
+<div class="note-box warn">
+  <div class="nb-title">为什么 V12 是最重要的版本</div>
+  <div class="nb-body">第一次外部文献核查发现了三条投稿阻断级的引用错误——一条不存在的论文、一条作者错配、一条 arXiv ID 指向无关论文——框架选择把自己的分数从 8.5 降到 8.2，而不是悄悄保留高分。一个会在证据要求时把自己的工作<em>往下打分</em>的自主流水线，远比一个只会往上爬的流水线可信。这三条都在下一轮迭代中修正了。</div>
+</div>
+
+<h2>285B 强化学习实验：核心区分点</h2>
+
+<p>关键决策是用一个<strong>真实的 285B 参数模型</strong>（DeepSeek-V4）来验证综述的核心命题，而不是用小模型做演示。配置：GRPO 训练，batch 512，N=16，32K 上下文，18,953 道数学推理题。验证器以概率 &epsilon; 翻转奖励——命题是 &epsilon; 决定自博弈改进的上限。</p>
+
+<p>有两个发现撑起了这篇论文：</p>
+<ul>
+  <li><strong>改进随验证器噪声单调下降。</strong>在 &epsilon; &isin; {0, 0.10, 0.30, 0.45} 下，训练分布准确率的相对变化为 <code>+4.8 / +0.1 / &minus;4.1 / &minus;6.6</code> 个百分点——严格单调，且与论文自身定理预测的排序一致。</li>
+  <li><strong>KL 锚点能缓冲噪声。</strong>固定 &epsilon;=0.30、扫 KL 系数，KL = 0 / 0.001 / 0.01 时分别为 <code>&minus;9.9 / &minus;4.1 / +0.8</code> 个百分点。随后的 KL 端点 held-out 研究表明，这个缓冲是一个有 sweet spot 的真实"旋钮"，而非单向的开关——训练分布收益与 held-out 表现之间存在真实的权衡。</li>
+</ul>
+
+<p>总计 12 个 GRPO run，约 <strong>3,570 GPU 卡时</strong> 的算力。过程中 5 次提交失败全部自主诊断并修复——包括一个反复出现的类型错误：科学计数法写的学习率被解析成了字符串。在第 4 次复现后，框架写了一个提交前检查脚本，并把这条教训固化进了自己的运行约束里。</p>
+
+<h2>五个人格，一个诚实的中位数</h2>
+
+<p>每一轮评审都由五个独立的评审人格并行打分，各有不同的偏好：</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>人格</th><th>角色</th><th>盯什么</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>R1</strong></td><td>实验家</td><td>论文里的数字是否与原始实验日志逐项对得上？</td></tr>
+    <tr><td><strong>R2</strong></td><td>理论家</td><td>证明是否严谨？<em>这是论文大半生命周期里的硬约束。</em></td></tr>
+    <tr><td><strong>R3</strong></td><td>完美主义者</td><td>表格一致性、摘要准确性、引用规范。</td></tr>
+    <tr><td><strong>R4</strong></td><td>综合者</td><td>每一项新增是否回答了论文自己提出的问题？</td></tr>
+    <tr><td><strong>R5</strong></td><td>新手</td><td>非专家能否读得进去？（一个阅读路线 + 缩写表带来了单轮最大涨幅。）</td></tr>
+  </tbody>
+</table>
+
+<p>报告的是中位数而非平均分，所以单个热情的评审人格无法把分数抬高。在论文大半的生命周期里，理论家（R2）一直停在 8.0，把中位数压住。这恰恰是最该被听见的信号。</p>
+
+<h2>V16：理论加固是最后一公里</h2>
+
+<p>到 V14 时实验已经扎实，但 R2 始终压着中位数：noise-floor 的论证和 KL 消融的符号没有和理论自洽。解决办法不是更多实验——而是<strong>新的数学</strong>。三个子问题被攻下并整合进论文：</p>
+
+<ol>
+  <li><strong>噪声地板递推。</strong>一个精确闭式的重导，证明在 harmonic coverage 下地板是 &Theta;(&eta;T)（顺带抓出论文自身初稿里的一处掉因子错误），并在显式 mixing 假设下给出真常数地板 &eta;/&rho;。</li>
+  <li><strong>耦合地板引理。</strong>用严格的 Gibbs &rarr; Jensen &rarr; Pinsker 链给出 KL 锚点位移的界。</li>
+  <li><strong>匹配下界。</strong>一个持久性二分，证明地板的阶数是最优的。</li>
+</ol>
+
+<p>这把中位数从 8.5 推到了 8.6。值得一提的是，这一轮是由一个<strong>单 Agent 串行 loop</strong> 通宵完成的——此前两次尝试用并行多 Agent workflow 都 stall 了，烧掉了这一轮大部分 token，真正的证明产出反而来自更简单的串行方式。这条教训现在已经写进框架的记忆里。</p>
+
+<div class="cta-box">
+  <p><strong>阅读完整论文、生产统计数据，以及四篇论文的对比。</strong></p>
+  <a href="auto_research/paper_zh.html">查看 AutoResearch 论文 &rarr;</a>
+</div>
+
+<h2>我的收获</h2>
+
+<p>前三篇综述证明了 Agent 框架能<em>写</em>出一篇可信的论文。这一篇证明了更难的事：它能<strong>跑一个真实实验来检验论文自己的命题、诚实地给自己打分（包括往下打）、并用新数学补上理论缺口</strong>——历时六天，基本无人值守。距离 9.0 只剩一个开放问题（把 held-out &harr; exploitability 的映射定理化），留作发表后的工作。</p>
+
+<p>Stay tuned.</p>
+
+</div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Deli Chen &middot; <a href="index.html">Homepage</a></p>
+  </div>
+</footer>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.lang-en, .lang-zh').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
