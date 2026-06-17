@@ -211,14 +211,6 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
   .nav-brand { display: none; }
 }
 
-/* Auto Research lang buttons */
-.ar-lang-btn {
-  padding: 6px 14px; font-size: 0.82em; cursor: pointer; border: 1px solid var(--border);
-  border-radius: 5px; background: transparent; color: var(--text-dim); font-family: inherit; transition: all 0.2s;
-}
-.ar-lang-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
-.ar-lang-btn:hover:not(.active) { border-color: var(--accent); color: var(--text); }
-
 @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 .page.active { animation: fadeUp 0.4s ease-out; }
 </style>
@@ -609,13 +601,13 @@ footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: cente
 <div class="page" id="page-auto-research">
 <section>
   <h2 class="section-title">Auto Research Papers</h2>
-  <p style="color:var(--text-dim); margin-bottom:20px; font-size:0.9em;">
+  <p style="color:var(--text-dim); margin-bottom:14px; font-size:0.9em;">
     Four survey papers produced by the AutoResearch pipeline — fully autonomous literature review, experiment design, and paper writing powered by LLM agents. The latest (Paper #4 on self-play) is validated by an original 285B-parameter GRPO reinforcement-learning experiment and reached an 8.6/10 peer-review score.
-    <a href="auto_research/paper.html" target="_blank" style="margin-left:8px; font-size:0.85em;">[Open standalone page &rarr;]</a>
   </p>
-  <div style="display:flex; gap:8px; margin-bottom:16px;">
-    <button class="ar-lang-btn active" onclick="switchARLang('en')">EN</button>
-    <button class="ar-lang-btn" onclick="switchARLang('zh')">ZH</button>
+  <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+    <a href="auto_research/paper.html" target="_blank" class="nav-link" style="font-size:0.85em; padding:6px 14px; border:1px solid var(--border); border-radius:6px; color:var(--text-dim);">Papers &amp; PDFs &rarr;</a>
+    <a href="auto_research/framework.html" target="_blank" class="nav-link" style="font-size:0.85em; padding:6px 14px; border:1px solid var(--border); border-radius:6px; color:var(--text-dim);">Framework Protocol &rarr;</a>
+    <a href="auto_research/skill/paper-writing.html" target="_blank" class="nav-link" style="font-size:0.85em; padding:6px 14px; border:1px solid var(--border); border-radius:6px; color:var(--text-dim);">Paper-Writing Skill &rarr;</a>
   </div>
   <div style="border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--surface);">
     <iframe id="ar-iframe" src="auto_research/paper.html" style="width:100%; height:80vh; border:none; display:block;"></iframe>
@@ -697,12 +689,6 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
   });
 });
 
-function switchARLang(lang) {
-  const iframe = document.getElementById('ar-iframe');
-  iframe.src = lang === 'zh' ? 'auto_research/paper_zh.html' : 'auto_research/paper.html';
-  document.querySelectorAll('.ar-lang-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
-}
 </script>
 
 </body>
